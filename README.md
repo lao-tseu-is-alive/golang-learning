@@ -1,2 +1,2 @@
-# goutil
-Golang first package
+# golang-learning
+Golang first steps
