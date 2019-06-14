@@ -26,6 +26,7 @@ func main() {
 	}
 	fmt.Println("Process is running...")
 
+	// Wait function will wait until the process end
 	err = process.Wait()
 	if err != nil {
 		log.Fatalf("ERROR waiting for command : %s , error is : %v\n", cmd, err)
