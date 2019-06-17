@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"github.com/lao-tseu-is-alive/golog"
 	"log"
 	"os/exec"
 	"runtime"
@@ -24,7 +25,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("ERROR trying to start command : %s , error is : %v\n", cmd, err)
 	}
-	fmt.Println("Process is running...")
+	golog.Info("Process is running...")
 
 	// Wait function will wait until the process end
 	err = process.Wait()
