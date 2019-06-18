@@ -35,7 +35,7 @@ func main() {
 	} else {
 		cmd = "sleep"
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 500*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), 1500*time.Millisecond)
 	defer cancel()
 	// The provided context is used to kill the myCmd (by calling os.Process.Kill)
 	// if the context becomes done before the command completes on its own.
