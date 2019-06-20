@@ -19,6 +19,6 @@ func main() {
 	log.Printf("Application '%s' is starting\n", app)
 	log.Printf(info, runtime.Version())
 	golog.Err("something went terribly wrong here !")
-	golog.Warn("this is a warning !")
+	golog.Warn("NumCPU : %d, GOMAXPROCS : %d  ", runtime.NumCPU(), runtime.GOMAXPROCS(-1))
 	golog.Info("just a simple information message to send to log")
 }
