@@ -90,6 +90,7 @@ func WordCount(text string) map[string]int {
 
 func main() {
 	dataFile := flag.String("file", path.Join(defaultBasePath, defaultTextFile), "Give the filename you want to get the word list")
+	minWordLength := flag.Int("min-length", 1, "minimum lenght of words to keep (default is 1)")
 	flag.Parse()
 	allLines, err := readLines(*dataFile)
 	if err != nil {
@@ -101,7 +102,13 @@ func main() {
 			// https://www.regular-expressions.info/unicode.html
 			reWords := regexp.MustCompile("(\\p{L}\\p{M}*)+")
 			words := reWords.FindAllString(line, -1)
-			wList := strings.Join(words, ", ")
+			onlyBiggerWords := []string{}
+			for _, word := range words {
+				if len(word) > *minWordLength {
+					onlyBiggerWords = append(onlyBiggerWords, word)
+				}
+			}
+			wList := strings.Join(onlyBiggerWords, ", ")
 			fmt.Printf("%d : %s <|||>[%s]\n", i, line, wList)
 		}
 	}
