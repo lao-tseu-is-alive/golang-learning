@@ -1,11 +1,14 @@
 package main
 
 import (
+	"bufio"
+	"flag"
 	"fmt"
 	"github.com/lao-tseu-is-alive/golog"
 	"log"
 	"os"
 	"path"
+	"regexp"
 	"strings"
 )
 
@@ -44,18 +47,67 @@ func GetTextInFile(filename string) (string, error) {
 	return string(buffer), nil
 }
 
-func main() {
-	dataFile := path.Join(defaultBasePath, defaultTextFile)
-	allText, err := GetTextInFile(dataFile)
+// readLines reads a whole file into memory and returns a slice of its lines.
+func readLines(path string) ([]string, error) {
+	file, err := os.Open(path)
 	if err != nil {
-		golog.Err(allText)
-		log.Fatal(allText)
+		return nil, err
 	}
-	allLines := strings.Split(allText, "\n")
+	defer file.Close()
+
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	return lines, scanner.Err()
+}
+
+// writeLines writes the lines to the given file.
+func writeLines(lines []string, path string) error {
+	file, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	w := bufio.NewWriter(file)
+	for _, line := range lines {
+		fmt.Fprintln(w, line)
+	}
+	return w.Flush()
+}
+
+func WordCount(text string) map[string]int {
+	reWords := regexp.MustCompile("\\p{L}+")
+	words := reWords.FindAllString(text, -1)
+	counts := make(map[string]int, len(words))
+	for _, word := range words {
+		counts[word]++
+	}
+	return counts
+}
+
+func main() {
+	dataFile := flag.String("file", path.Join(defaultBasePath, defaultTextFile), "Give the filename you want to get the word list")
+	flag.Parse()
+	allLines, err := readLines(*dataFile)
+	if err != nil {
+		golog.Err("doing readLines %s", err)
+		log.Fatalf("readLines: %s", err)
+	}
+	for i, line := range allLines {
+		if len(strings.TrimSpace(line)) > 0 {
+			// https://www.regular-expressions.info/unicode.html
+			reWords := regexp.MustCompile("(\\p{L}\\p{M}*)+")
+			words := reWords.FindAllString(line, -1)
+			wList := strings.Join(words, ", ")
+			fmt.Printf("%d : %s <|||>[%s]\n", i, line, wList)
+		}
+	}
+
 	numLines := len(allLines)
-	//fmt.Printf("%+v\n\n",allText)
-	fmt.Printf("%+v\n\n", allLines)
-	fmt.Printf("#File: %s contains %d lines\n", defaultTextFile, numLines)
-	fmt.Println(allLines[0])
+	// print all file :
+	fmt.Printf("## File: %s contains %d lines\n", *dataFile, numLines)
 
 }
