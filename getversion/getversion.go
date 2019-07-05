@@ -12,8 +12,7 @@ const app = "getversion"
 // to run/build  you need to run in the shell :
 // go run getversion.go log.go
 func main() {
-	golog.Trace("BEGIN in main()")
-	defer golog.Trace("END of main()")
+	defer golog.Un(golog.Trace("main()"))
 	const info = `The binary was build by Go version : %s`
 
 	log.Printf("Application '%s' is starting\n", app)
