@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/lao-tseu-is-alive/golog"
-	"github.com/lao-tseu-is-alive/goutils"
 	"os/exec"
 	"runtime"
 	"time"
@@ -20,7 +19,7 @@ func trace() {
 
 func innerFunction() {
 	defer golog.Un(golog.Trace("innerFunction"))
-	goutils.PrintCallStack()
+	golog.PrintCallStack()
 }
 func outerFunction() {
 	defer golog.Un(golog.Trace("outerFunction"))
@@ -41,14 +40,14 @@ func main() {
 	// if the context becomes done before the command completes on its own.
 	// https://golang.org/pkg/os/exec/#CommandContext
 	myCmd := exec.CommandContext(ctx, cmd, "1") // chilD process should wait 1 sec
-	goutils.DoItOrDie(myCmd.Start(), "Doing myCmd.Start(), cmd: %s", cmd)
+	golog.DoItOrDie(myCmd.Start(), "Doing myCmd.Start(), cmd: %s", cmd)
 
 	golog.Info("PID (after Start, before Wait): %d\n", myCmd.Process.Pid)
 	// myCmd.ProcessState is nil until the myCmd process as finish.
 	golog.Info("Process state for running child myCmd: %v\n", myCmd.ProcessState)
 	// This will fail after 500 milliseconds. The child myCmd with 1 second sleep will be interrupted.
 	// Wait function will wait until the myCmd ends (with success or because an error occurs)
-	goutils.DoItOrDie(myCmd.Wait(), "Doing myCmd.Wait(), Child PID: %d", myCmd.Process.Pid)
+	golog.DoItOrDie(myCmd.Wait(), "Doing myCmd.Wait(), Child PID: %d", myCmd.Process.Pid)
 
 	// After the myCmd terminates the *os.ProcessState contains simple information about the child myCmd run
 	golog.Info("PID (after Wait): %d\n", myCmd.ProcessState.Pid())

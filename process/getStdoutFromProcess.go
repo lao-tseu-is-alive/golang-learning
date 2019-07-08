@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"context"
 	"fmt"
-	"github.com/lao-tseu-is-alive/goutils"
+	"github.com/lao-tseu-is-alive/golog"
 	"os/exec"
 	"regexp"
 	"strconv"
@@ -27,7 +27,7 @@ func main() {
 	defer stdout.Close()
 
 	// Start the process
-	goutils.DoItOrDie(proc.Start(), "starting process")
+	golog.DoItOrDie(proc.Start(), "starting process")
 
 	// For more comfortable reading the bufio.Scanner is used. The read call is blocking.
 	s := bufio.NewScanner(stdout)

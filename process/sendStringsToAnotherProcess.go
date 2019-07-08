@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/lao-tseu-is-alive/goutils"
+	"github.com/lao-tseu-is-alive/golog"
 	"io"
 	"os/exec"
 	"time"
@@ -30,7 +30,7 @@ func main() {
 	}()
 
 	// Start the process
-	goutils.DoItOrDie(proc.Start(), "starting process")
+	golog.DoItOrDie(proc.Start(), "starting process")
 
 	// Now the following lines
 	// are written to child
