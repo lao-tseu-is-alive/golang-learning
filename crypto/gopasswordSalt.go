@@ -28,6 +28,7 @@ func hashAndSalt(pwd []byte) string {
 	// package along with DefaultCost & MaxCost.
 	// The cost can be any value you want provided it isn't lower
 	// than the MinCost (4)
+	// https://godoc.org/golang.org/x/crypto/bcrypt
 	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
 	if err != nil {
 		log.Println(err)
