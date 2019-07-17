@@ -1,5 +1,5 @@
 ## golang-learning
-Golang first steps
+Golang first steps in learning and experimenting with Go
 
 ### installation
 first follow the instructions to install Go tools on golang.org: https://golang.org/doc/install 
