@@ -36,7 +36,7 @@ func main() {
 			panic(err)
 		}
 
-		fmt.Printf("### File content ###\n%s\n", string(c))
+		fmt.Printf("### File content [type : %T]###\n%s\n", c, string(c))
 
 	} else {
 		panic("Invalid File Name !")
