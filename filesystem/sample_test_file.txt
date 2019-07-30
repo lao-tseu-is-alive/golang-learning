@@ -1,0 +1,2 @@
+this is just a sample test file
+so that you can test the filesystem functions in go
