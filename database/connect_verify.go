@@ -5,13 +5,14 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/lao-tseu-is-alive/golog"
+	"github.com/lao-tseu-is-alive/goutils"
 	"time"
 
 	_ "github.com/lib/pq"
 )
 
 func main() {
-	connStr, err := GetConnectionString("golangdb")
+	connStr, err := goutils.GetDbConnectionString("golangdb")
 	if err != nil {
 		panic(err)
 	}
