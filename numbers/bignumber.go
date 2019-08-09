@@ -11,6 +11,18 @@ var db float64 = 0.299999991
 var prec uint = 32
 var prec2 uint = 16
 
+const (
+	// Create a huge number by shifting a 1 bit left 100 places.
+	// In other words, the binary number that is 1 followed by 100 zeroes.
+	Big = 1 << 100
+	// Shift it right again 99 places, so we end up with 1<<1, or 2.
+	Small = Big >> 99
+)
+
+func needFloat(x float64) float64 {
+	return x * 0.1
+}
+
 func main() {
 
 	fmt.Printf("Comparing float64 with '==' equals: %v\n", da == db)
@@ -31,4 +43,6 @@ func main() {
 	fmt.Printf("Comparing big.Float with precision: %d : %v\n",
 		prec2, daB.Cmp(dbB) == 0)
 
+	// fmt.Printf("Val : %v\n",Big) // will not compile
+	fmt.Printf("BIG Val : %v\n", needFloat(Big))
 }
