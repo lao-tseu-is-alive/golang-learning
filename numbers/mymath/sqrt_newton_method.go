@@ -1,10 +1,22 @@
-package main
+package mymath
 
 import (
 	"fmt"
 	"github.com/lao-tseu-is-alive/golog"
 	"math"
+	"time"
 )
+
+type ErrNegativeSqrt struct {
+	When time.Time
+	Num  float64
+}
+
+func (e ErrNegativeSqrt) Error() string {
+	val := fmt.Sprint(float64(e.Num))
+	err := fmt.Sprintf("ERROR at %v :cannot Sqrt negative number: %v\n", e.When, val)
+	return err
+}
 
 /**
 
@@ -25,35 +37,22 @@ https://en.wikipedia.org/wiki/Newton%27s_method
 It works well for many functions but especially well for square root.)
 
 */
-func Sqrt(x float64) float64 {
+func Sqrt(x float64) (float64, error) {
 	golog.Un(golog.Trace("In Sqrt(%v)", x))
+	if x < 0 {
+		return 0, &ErrNegativeSqrt{time.Now(), x}
+	}
 	const EPSILON float64 = 1E-12
 	z := 1.0
 	// let's say we allow a max of 50 steps
 	for i := 1; i < 51; i++ {
 		z = z - ((z*z - x) / (2 * z))
 		delta := x - (z * z)
-		golog.Info("Iteration %d \t z=%v\t delta:%v", i, z, delta)
+		// golog.Info("Iteration %d \t z=%v\t delta:%v", i, z, delta)
 		if math.Abs(delta-1E-13) <= EPSILON {
 			golog.Info("OK that's enough precision ! Let's get out after %d loops at delta:%v", i, delta)
 			break
 		}
 	}
-	return z
-}
-
-func compareNewtonMethod(x float64) {
-	myResult := Sqrt(x)
-	fmt.Printf("Sqrt(%v) approximation with Newton method : %v\n", x, myResult)
-	fmt.Printf("Sqrt(%v) from the Go math package         : %v\n", x, math.Sqrt(x))
-	fmt.Printf("Difference of Go math with Newton method : %.18f\n", math.Sqrt(x)-myResult)
-}
-
-func main() {
-
-	compareNewtonMethod(2.0)
-	compareNewtonMethod(3.0)
-	compareNewtonMethod(4.0)
-	compareNewtonMethod(49.0)
-
+	return z, nil
 }

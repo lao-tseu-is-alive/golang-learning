@@ -2,17 +2,17 @@ package main
 
 import "fmt"
 
-type Vertex struct {
+type VertexInt struct {
 	X int
 	Y int
 }
 
 var (
-	v1 = Vertex{1, 2}    // has type Vertex
-	v  = Vertex{91, 92}  // has type
-	v2 = Vertex{X: 1}    // Y:0 is implicit
-	v3 = Vertex{}        // X:0 and Y:0
-	p  = &Vertex{11, 21} // has type *Vertex
+	v1 = VertexInt{1, 2}    // has type VertexInt
+	v  = VertexInt{91, 92}  // has type
+	v2 = VertexInt{X: 1}    // Y:0 is implicit
+	v3 = VertexInt{}        // X:0 and Y:0
+	p  = &VertexInt{11, 21} // has type *VertexInt
 	p1 = &v
 )
 
