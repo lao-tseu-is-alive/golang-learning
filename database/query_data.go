@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const sel = `SELECT id,title,is_done, date_last_modification, id_last_modifier FROM todo;`
+const sel = `SELECT id,title,is_done, id_last_modifier FROM todo;`
 
 const selOne = "SELECT id,title,is_done FROM todo WHERE ID = $1;"
 
@@ -38,7 +38,7 @@ func main() {
 			panic(rs.Err())
 		}
 		t := Todo{}
-		if err := rs.Scan(&t.id, &t.title, &t.isDone, &t.dateLastModif, &t.idLastModifUSer); err != nil {
+		if err := rs.Scan(&t.id, &t.title, &t.isDone, &t.idLastModifUSer); err != nil {
 			golog.Err("Problem in rs.Scan error: %v", err)
 			panic(err)
 		}
