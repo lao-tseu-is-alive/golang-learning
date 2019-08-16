@@ -1,0 +1,8 @@
+# https://support.google.com/webmasters/answer/6062596?hl=fr
+# Groupe 1
+User-agent: Googlebot
+Disallow: /nogooglebot/
+
+# Groupe 2
+User-agent: *
+Allow: /
