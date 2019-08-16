@@ -14,6 +14,7 @@ import (
 	"path"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type keyValue = struct {
@@ -27,8 +28,10 @@ type htmlData = struct {
 	Headers         []keyValue
 	HttpMethod      string
 	HttpURL         string
+	Path            string
 	HttpProto       string
 	HostRemote      string
+	Host            string
 	QueryParams     []keyValue
 }
 
@@ -58,8 +61,12 @@ const (
 <div class="row">
     <div class="three columns"><strong>Proto:</strong> {{.HttpProto}}</div>
 	<div class="three columns"><strong>Method:</strong> {{.HttpMethod}}</div>
-    <div class="three columns"><strong>Url:</strong> {{.HttpURL}}</div>
+    <div class="three columns"><strong>Host:</strong> {{.Host}}</div>
 	<div class="three columns"><strong>Remote IP:</strong> {{.HostRemote}}</div>
+</div>
+<div class="row">
+    <div class="three columns"><strong>Path:</strong> {{.Path}}</div>	
+    <div class="nine columns"><strong>Url:</strong> {{.HttpURL}}</div>	
 </div>
 <h4>Headers</h4>
 <p><ul>
@@ -82,16 +89,8 @@ func check(err error) {
 	}
 }
 
-/*
-func faviconHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "resources/favicon.ico")
-}
-
-func faviconPngHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "resources/favicon-32x32.png")
-}
-*/
 func ServeStaticFileHandler(res http.ResponseWriter, req *http.Request) {
+	// examine bundling res with app https://github.com/GeertJohan/go.rice
 	fileName := path.Base(req.URL.Path)
 	http.ServeFile(res, req, "./resources/"+fileName)
 }
@@ -109,13 +108,17 @@ func main() {
 		golog.Info("Using ENV variable WEB_PORT to listen %s ", val)
 		port, _ = strconv.Atoi(val)
 	}
+	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	listenAddr := fmt.Sprintf("%s:%v", defaultHost, port)
+	listenInfo := fmt.Sprintf("Server is listening on  : %v\n", listenAddr)
+	logger.Printf(listenInfo)
+	golog.Info(listenInfo)
 	mux := http.NewServeMux()
-	golog.Info("listening on  : %v\n", listenAddr)
 	fmt.Println("#Method\tUrl\tProto\tPath\tRemoteAdr")
 
 	t := template.Must(template.New("page").Parse(htmlTemplate))
 	// ##### ROUTES #####
+	// TODO:  handle 404 & bad host like ip
 	mux.HandleFunc("/favicon.ico", ServeStaticFileHandler)
 	mux.HandleFunc("/favicon-32x32.png", ServeStaticFileHandler)
 	mux.HandleFunc("/robots.txt", ServeStaticFileHandler)
@@ -164,7 +167,9 @@ func main() {
 			Headers:         myStrings,
 			HttpMethod:      r.Method,
 			HttpURL:         urlString,
+			Path:            r.URL.Path,
 			HttpProto:       r.Proto,
+			Host:            r.Host,
 			HostRemote:      r.RemoteAddr,
 			QueryParams:     queryParams,
 		}
@@ -172,9 +177,14 @@ func main() {
 		check(err)
 	})
 	srv := &http.Server{
-		Addr:         listenAddr,
-		Handler:      mux,
-		TLSNextProto: nil, // to allow http2 to run !
+		Addr:           listenAddr,
+		Handler:        mux,
+		TLSNextProto:   nil, // to allow http2 to run :->https://golang.org/pkg/net/http/
+		ErrorLog:       logger,
+		ReadTimeout:    5 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		IdleTimeout:    15 * time.Second,
+		MaxHeaderBytes: 1 << 20,
 	}
 
 	log.Fatal(srv.ListenAndServeTLS(SSLCertificate, SSLCertKeyFile))
