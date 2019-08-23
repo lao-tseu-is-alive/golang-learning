@@ -184,7 +184,7 @@ func main() {
 		ReadTimeout:    5 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		IdleTimeout:    15 * time.Second,
-		MaxHeaderBytes: 1 << 20,
+		MaxHeaderBytes: 1 << 20, // 1 << 20 specifies maximum of 1MB header .
 	}
 
 	log.Fatal(srv.ListenAndServeTLS(SSLCertificate, SSLCertKeyFile))
