@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <style>
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+    <title>basic golang html form</title>
+</head>
+<body>
+<div class="container">
+    {{if .Success}}
+    <h3>Thanks for your message {{.Name}} !</h3>
+    <div class="row">
+        <div class="six columns">
+            <label for="name">Your name:</label><span class="bold">{{.Name}}</span>
+        </div>
+        <div class="six columns">
+            <label for="name">Your email:</label><span class="bold">{{.Email}}</span>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <h5>Subject : </h5><div class="bold">{{.Subject}}</div>
+    </div>
+    <div class="row">
+        <h5>Message :</h5><div >{{.Message}}</div>
+    </div>
+    <hr>
+</div>
+
+{{else}}
+    <h1>Contact</h1>
+    <form method="POST">
+        <div class="row">
+            <div class="six columns">
+                <label for="name">Enter your name:</label>
+                <input id="name" name="name" type="text" class="u-full-width" placeholder="your name goes here">
+            </div>
+            <div class="six columns">
+                <label for="email">Enter your email:</label>
+                <input id="email" name="email" type="email" class="u-full-width" placeholder="test@mailbox.com">
+            </div>
+        </div>
+        <div class="row">
+            <label>Subject:</label>
+            <input type="text" class="u-full-width" name="subject">
+            <label>Message:</label><br/>
+            <textarea name="message" class="u-full-width"></textarea>
+        </div>
+        <input type="submit">
+    </form>
+{{end}}
+</div>
+</body>
+</html>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
