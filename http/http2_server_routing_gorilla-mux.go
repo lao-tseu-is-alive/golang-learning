@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -13,6 +14,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/signal"
 	"path"
 	"strconv"
 	"strings"
@@ -113,7 +115,6 @@ func ServeStaticFileHandler(res http.ResponseWriter, req *http.Request) {
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	// golog.Info("connection from %s", r.RemoteAddr)
 	var (
 		myStrings   []keyValue
 		queryParams []keyValue
@@ -124,9 +125,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	//Get value for a specified token
 	//fmt.Fprintf(w, "\n\nFinding value of \"Accept\" %q", r.Header["Accept"])
+
 	//Iterate over all header fields
 	for k, v := range r.Header {
-		// tmp := fmt.Sprintf("%q : %q\n", k, v)
 		kv := keyValue{
 			Key:   k,
 			Value: strings.Join(v, ","),
@@ -142,29 +143,19 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		queryParams = append(queryParams, kv)
 	}
-	//fmt.Fprintf(w, "Host = %q\n", r.Host)
-
-	urlString, err := url.QueryUnescape(r.URL.String())
-	if err != nil {
-		golog.Err("No way to decode url err: %v ", err)
-		urlString = html.UnescapeString("#URL_DECODE_ERROR#")
-	}
-	fmt.Printf("%s\t%s\t%s\t%s\t%s\n", r.Method, urlString, r.Proto, r.URL.Path, r.RemoteAddr)
-	fmt.Println("URL.Query : ", r.URL.Query())
 
 	htmlContent := htmlData{
 		TitlePage:       title,
 		DescriptionPage: description,
 		Headers:         myStrings,
 		HttpMethod:      r.Method,
-		HttpURL:         urlString,
 		Path:            r.URL.Path,
 		HttpProto:       r.Proto,
 		Host:            r.Host,
 		HostRemote:      r.RemoteAddr,
 		QueryParams:     queryParams,
 	}
-	err = t.Execute(w, htmlContent)
+	err := t.Execute(w, htmlContent)
 	check(err)
 }
 
@@ -236,6 +227,25 @@ func ReadBook(w http.ResponseWriter, r *http.Request) {
 	w.Write(data)
 }
 
+/*
+	very basic middleware which logs the URI of the request being handled could be written as:
+*/
+func loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Do stuff here
+		urlString, err := url.QueryUnescape(r.URL.String())
+		if err != nil {
+			golog.Err("No way to decode url err: %v ", err)
+			urlString = html.UnescapeString("#URL_DECODE_ERROR#")
+		}
+		logLine := fmt.Sprintf("%s\t%s\t%s\t%s\t%s\t%s\n", r.Method, urlString, r.Proto, r.URL.Path, r.RemoteAddr, r.Host)
+		golog.Info(logLine)
+		log.Println(fmt.Sprintf("[%s]\t%s", golog.GetTimeStamp(), logLine))
+		// Call the next handler, which can be another middleware in the chain, or the final handler.
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	// example : https://golang.org/src/net/http/example_test.go
 	basePath := goutils.GetEnvOrDefault("GOPATH", "")
@@ -249,13 +259,16 @@ func main() {
 		golog.Info("Using ENV variable WEB_PORT to listen %s ", val)
 		port, _ = strconv.Atoi(val)
 	}
+	var wait time.Duration
+	flag.DurationVar(&wait, "graceful-timeout", time.Second*5, "the duration for which the server gracefully wait for existing connections to finish - e.g. 5s or 1m")
+	flag.Parse()
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	listenAddr := fmt.Sprintf("%s:%v", defaultHost, port)
-	listenInfo := fmt.Sprintf("Server is listening on  : %v\n", listenAddr)
+	listenInfo := fmt.Sprintf("### Server started and listening on  : %v\n", listenAddr)
 	logger.Printf(listenInfo)
 	golog.Info(listenInfo)
 	gomux := mux.NewRouter()
-	fmt.Println("#Method\tUrl\tProto\tPath\tRemoteAdr")
+	logger.Println("#Method\tUrl\tProto\tPath\tRemoteAdr")
 
 	// ##### ROUTES #####
 	// TODO:  handle 404 & bad host like ip
@@ -270,6 +283,7 @@ func main() {
 		mux.HandleFunc("/books/{id}",  DeleteBook).Methods("DELETE")
 	*/
 	gomux.HandleFunc("/", HomeHandler)
+	gomux.Use(loggingMiddleware)
 
 	// ## let's run the server
 	srv := &http.Server{
@@ -282,5 +296,33 @@ func main() {
 		IdleTimeout:    15 * time.Second,
 		MaxHeaderBytes: 1 << 20, // 1 << 20 specifies maximum of 1MB header .
 	}
-	log.Fatal(srv.ListenAndServeTLS(SSLCertificate, SSLCertKeyFile))
+	// Run our server in a goroutine so that it doesn't block.
+	go func() {
+		err := srv.ListenAndServeTLS(SSLCertificate, SSLCertKeyFile)
+		if err != nil {
+			msg := fmt.Sprintf("ERROR when ListenAndServeTLS : %v", err)
+			golog.Err(msg)
+			log.Println(msg)
+			os.Exit(1)
+		}
+	}()
+	c := make(chan os.Signal, 1)
+	// We'll accept graceful shutdowns when quit via SIGINT (Ctrl+C)
+	// SIGKILL, SIGQUIT or SIGTERM (Ctrl+/) will not be caught.
+	signal.Notify(c, os.Interrupt)
+
+	// Block until we receive our signal.
+	<-c
+
+	// Create a deadline to wait for.
+	ctx, cancel := context.WithTimeout(context.Background(), wait)
+	defer cancel()
+	// Doesn't block if no connections, but will otherwise wait
+	// until the timeout deadline.
+	srv.Shutdown(ctx)
+	// Optionally, you could run srv.Shutdown in a goroutine and block on
+	// <-ctx.Done() if your application should wait for other services
+	// to finalize based on context cancellation.
+	log.Println("### shutting down the http server...")
+	os.Exit(0)
 }
