@@ -10,6 +10,7 @@ import (
 /*
 	requirements :
 	sudo apt-get install libpcap-dev
+	go get -u github.com/lao-tseu-is-alive/golog
 	go get -u github.com/lao-tseu-is-alive/kping
 
 */
