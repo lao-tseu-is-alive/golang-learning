@@ -247,7 +247,6 @@ func loggingMiddleware(next http.Handler) http.Handler {
 }
 
 func main() {
-	// example : https://golang.org/src/net/http/example_test.go
 	basePath := goutils.GetEnvOrDefault("GOPATH", "")
 	SSLCertKeyFile := fmt.Sprintf("%s/%s", basePath, defaultSSLKeyFile)
 	SSLCertificate := fmt.Sprintf("%s/%s", basePath, defaultSSLCertFile)
