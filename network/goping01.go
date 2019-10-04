@@ -16,6 +16,8 @@ func main() {
 		fmt.Println("Invalid ip argument")
 		os.Exit(1)
 	}
+	fmt.Println("This code attempts to send an unprivileged ping via UDP. On linux, this must be enabled by setting:")
+	fmt.Println("sudo sysctl -w net.ipv4.ping_group_range=\"0   2147483647\"")
 	pinger, err := ping.NewPinger(ip)
 	if err != nil {
 		panic(err)
