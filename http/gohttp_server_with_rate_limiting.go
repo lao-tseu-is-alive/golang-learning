@@ -21,7 +21,8 @@ type IPRateLimiter struct {
 	b   int
 }
 
-// NewIPRateLimiter .
+// NewIPRateLimiter
+// warning:  the IP map will leak memory
 func NewIPRateLimiter(r rate.Limit, b int) *IPRateLimiter {
 	i := &IPRateLimiter{
 		ips: make(map[string]*rate.Limiter),
@@ -29,7 +30,7 @@ func NewIPRateLimiter(r rate.Limit, b int) *IPRateLimiter {
 		r:   r,
 		b:   b,
 	}
-
+	//TODO:  in production environments implement some kind of TTL to free the map from leaking
 	return i
 }
 
