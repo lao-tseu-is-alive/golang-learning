@@ -15,6 +15,7 @@ func main() {
 	}
 	for {
 		fmt.Println("Waiting for client...")
+		fmt.Println("you can try to just type : \"nc localhost 8080\" from another shell")
 		conn, err := l.Accept()
 		if err != nil {
 			panic(err)
