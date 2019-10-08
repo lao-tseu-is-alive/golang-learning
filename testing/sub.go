@@ -5,11 +5,11 @@ https://www.calhoun.io/how-to-test-with-go/
 // Package math_operation provides basic math operation to demonstrate testing and documenting in golang
 package math_operation
 
-// Sum adds up all of numbers in a slice and returns the resulting sum.
-func Sum(numbers []int) int {
+// Sub subtract up all of numbers in a slice and returns the resulting operation.
+func Sub(numbers []int) int {
 	sum := 0
 	for _, n := range numbers {
-		sum += n
+		sum -= n
 	}
 	return sum
 }
