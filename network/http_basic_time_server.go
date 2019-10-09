@@ -12,6 +12,12 @@ const ReadTimeoutDefault = 5 * time.Second
 const WriteTimeoutDefault = 10 * time.Second
 const IdleTimeoutDefault = 15 * time.Second
 
+func timePageHandler(w http.ResponseWriter, r *http.Request) {
+	now := time.Now()
+	w.Header().Set("Content-Type", "application/json")
+	fmt.Fprintf(w, "{\"time\":\"%s\"}", now.Format(time.RFC3339))
+}
+
 func main() {
 	arguments := os.Args
 	listenAddr := ":8080"
@@ -24,11 +30,7 @@ func main() {
 		listenAddr = ":" + arguments[1]
 	}
 	logger.Printf("Starting HTTP server on port %s", listenAddr)
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		now := time.Now()
-		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintf(w, "{\"time\":\"%s\"}", now.Format(time.RFC3339Nano))
-	})
+	http.HandleFunc("/", timePageHandler)
 	server := &http.Server{
 		Addr:         listenAddr,
 		Handler:      nil,
