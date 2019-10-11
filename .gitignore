@@ -15,3 +15,5 @@
 .idea
 
 */alpinelinux_*
+/wasm/wasm_exec.js
+/wasm/hello.wasm
