@@ -1,9 +1,12 @@
+// +build !windows
+
+// Build Constraints : https://golang.org/pkg/go/build/#hdr-Build_Constraints
 package main
 
 import (
 	"fmt"
 	"os"
-	"syscall"
+	"syscall" // using syscall is a bad idea it is deprecated in favor of "golang.org/x/sys/unix"
 )
 
 func main() {
@@ -21,6 +24,7 @@ func main() {
 	}
 	fmt.Printf("Current working directory is : %v\n", wd)
 	fmt.Println("# using syscall.Statfs : http://man7.org/linux/man-pages/man2/statfs.2.html")
+	fmt.Printf("Maximum lenght file name : %d \n", stat.Namelen)
 	fmt.Printf("# Free blocks available to unprivileged * block size in Byte (%v) gives bytes available on disk\n", uint64(stat.Bsize))
 
 	bytesTotal := stat.Blocks * uint64(stat.Bsize)
