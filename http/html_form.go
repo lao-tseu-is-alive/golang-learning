@@ -33,6 +33,7 @@ func main() {
 
 		// do something with details
 		_ = details
+		fmt.Println(details)
 
 		err := tmpl.Execute(w, details)
 		if err != nil {
