@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	const minConfidence = 0.25
 	const model = "models/res10_300x300_ssd_iter_140000.caffemodel"
 	const prototxt = "models/deploy.prototxt.txt"
 	const defaultImagePath = "images/test02.jpg"
@@ -22,9 +23,9 @@ func main() {
 		return
 	}
 	fmt.Printf("Size is : %v \n", srcImg.Size())
-
-	gocv.Resize(srcImg, &srcImg, image.Pt(300, 300), 0, 0, gocv.InterpolationCubic)
-	fmt.Printf("Size is : %v \n", srcImg.Size())
+	dstImage := gocv.NewMat()
+	gocv.Resize(srcImg, &dstImage, image.Pt(300, 300), 0, 0, gocv.InterpolationCubic)
+	fmt.Printf("Size is : %v \n", dstImage.Size())
 
 	fmt.Println("Reading model ")
 	net := gocv.ReadNetFromCaffe(prototxt, model)
@@ -34,22 +35,23 @@ func main() {
 		Val3: 123.0,
 		Val4: 0,
 	}
-	blob := gocv.BlobFromImage(srcImg, 1.0, image.Pt(300, 300), mean, true, true)
+	blob := gocv.BlobFromImage(dstImage, 1.0, image.Pt(300, 300), mean, true, true)
 	net.SetInput(blob, "")
 	prob := net.Forward("")
 	size := prob.Size()
 	fmt.Println("PROB SIZE : ", size)
 	for i := 0; i < prob.Total(); i += 7 {
 		confidence := prob.GetFloatAt(0, i+2)
-		if confidence > 0.4 {
+		if confidence > minConfidence {
 			fmt.Printf("%d confidence: %v\n", i, confidence)
 		}
 	}
 
-	performDetection(&srcImg, prob)
+	performDetection(&srcImg, prob, minConfidence)
 
 	blob.Close()
 	prob.Close()
+	dstImage.Close()
 
 	window := gocv.NewWindow("OpenCV Face detect")
 	for {
@@ -66,10 +68,10 @@ func main() {
 // where N is the number of detections, and each detection
 // is a vector of float values
 // [batchId, classId, confidence, left, top, right, bottom]
-func performDetection(frame *gocv.Mat, results gocv.Mat) {
+func performDetection(frame *gocv.Mat, results gocv.Mat, minConfidence float32) {
 	for i := 0; i < results.Total(); i += 7 {
 		confidence := results.GetFloatAt(0, i+2)
-		if confidence > 0.4 {
+		if confidence > minConfidence {
 			left := int(results.GetFloatAt(0, i+3) * float32(frame.Cols()))
 			top := int(results.GetFloatAt(0, i+4) * float32(frame.Rows()))
 			right := int(results.GetFloatAt(0, i+5) * float32(frame.Cols()))
