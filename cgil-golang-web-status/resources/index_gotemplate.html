@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <style>
+        .bold {
+            font-weight: bold;
+        }
+
+        #feedback {
+            font-family: "SansSerif arial";
+            font-size: 1em;
+            padding: 0.1em;
+        }
+
+        .erreur {
+            font-size: larger;
+            color: red;
+        }
+    </style>
+    <meta name="Description" content="{{.DescriptionPage}}">
+    <title>{{.TitlePage}}</title>
+</head>
+<body>
+<div class="container">
+    <h3>{{.TitlePage}}</h3>
+    <h4>Request Info</h4>
+    <div class="row">
+        <div class="three columns"><strong>Proto:</strong> {{.HttpProto}}</div>
+        <div class="three columns"><strong>Method:</strong> {{.HttpMethod}}</div>
+        <div class="three columns"><strong>Host:</strong> {{.Host}}</div>
+        <div class="three columns"><strong>Remote IP:</strong> {{.HostRemote}}</div>
+    </div>
+    <div class="row">
+        <div class="three columns"><strong>Path:</strong> {{.Path}}</div>
+        <div class="nine columns"><strong>Url:</strong> {{.HttpURL}}</div>
+    </div>
+    <h4>Headers</h4>
+    <p><ul>
+        {{range .Headers}}<li><span class='bold'>{{ .Key }} :</span> {{ .Value }}</li>{{else}}<li><strong>no headers</strong></li>{{end}}
+    </ul></p>
+    <h4>Query params</h4>
+    <p><ul>
+        {{range .QueryParams}}<li><span class='bold'>{{ .Key }} :</span> {{ .Value }}</li>{{else}}<li><strong>no params</strong></li>{{end}}
+    </ul></p>
+    <div class="row">
+        <div id="glogMessage" class="row">…</div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
