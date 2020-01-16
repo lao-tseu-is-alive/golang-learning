@@ -116,7 +116,7 @@ func main() {
 	mux := http.NewServeMux()
 	fmt.Println("#Method\tUrl\tProto\tPath\tRemoteAdr")
 
-	t := template.Must(template.New("page").Parse(htmlTemplate))
+	template := template.Must(template.New("page").Parse(htmlTemplate))
 	// ##### ROUTES #####
 	// TODO:  handle 404 & bad host like ip
 	mux.HandleFunc("/favicon.ico", ServeStaticFileHandler)
@@ -173,7 +173,7 @@ func main() {
 			HostRemote:      r.RemoteAddr,
 			QueryParams:     queryParams,
 		}
-		err = t.Execute(w, htmlContent)
+		err = template.Execute(w, htmlContent)
 		check(err)
 	})
 	srv := &http.Server{
