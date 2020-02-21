@@ -50,7 +50,7 @@ func main() {
 	fmt.Println("db.Get(1) : ", get1)
 	fmt.Println("db.New --> val2, err := db.New(t2) ")
 	val2, err := db.New(t2)
-	fmt.Println("val2 : ", val2)
+	fmt.Println("val2      : ", val2)
 	res2 := storage.Todo{}
 	json.Unmarshal([]byte(val2), &res2)
 	get2, err := db.Get(res2.ID)

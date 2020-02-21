@@ -93,8 +93,11 @@ func (db *PGX) Get(key int) (string, error) {
 func (db *PGX) List() (string, error) {
 	const todoListJson = `SELECT json_agg(row_to_json(u)) FROM  (
 	SELECT id, title, is_done FROM todo ORDER BY id) As u;`
-	res := "ok"
-	return string(res), nil
+	jsonResult, err := db.getQueryRowString(todoListJson)
+	if err != nil {
+		return "", err
+	}
+	return jsonResult, nil
 }
 
 func (db *PGX) getQueryRowInt(sql string, arguments ...interface{}) (result int, err error) {
