@@ -1,0 +1,10 @@
+https://www.google.com
+https://google.ch
+https://facebook.com
+https://stackoverflow.com
+https://golang.org
+https://amazon.com
+https://www.epfl.ch
+https://www.lausanne.ch
+https://www.cnn.com
+https://www.thissitewillprobablynotexist.com
