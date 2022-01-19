@@ -12,8 +12,6 @@ import (
 	"time"
 )
 
-var urls = []string{}
-
 type urlCheckInfo struct {
 	url           string
 	success       bool
@@ -113,6 +111,7 @@ func main() {
 		} else {
 			fmt.Printf("###### 💥💥 url : %s is NOT WORKING ! 💥💥 ######\n", urlInfo.url)
 			totalFailures += 1
+			// may be here you can retry the url depending on the error
 		}
 		totalBytesReceived += urlInfo.receivedBytes
 	}
