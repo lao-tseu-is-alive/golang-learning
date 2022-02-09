@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Renders a textured spinning cube using GLFW 3 and OpenGL 4.1 core forward-compatible profile.
-package main // import "github.com/go-gl/example/gl41core-cube"
+package main
 
 import (
 	"fmt"
@@ -17,7 +17,7 @@ import (
 	"strings"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
-	"github.com/go-gl/glfw/v3.2/glfw"
+	"github.com/go-gl/glfw/v3.3/glfw"
 	"github.com/go-gl/mathgl/mgl32"
 )
 
