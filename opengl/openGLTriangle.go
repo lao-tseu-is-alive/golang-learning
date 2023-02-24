@@ -20,7 +20,7 @@ func init() {
 	runtime.LockOSThread()
 }
 
-//getWindow returns a valid window
+// getWindow returns a valid window
 func getWindow(title string, width int, height int) *glfw.Window {
 	glfw.WindowHint(glfw.Resizable, glfw.False)
 	glfw.WindowHint(glfw.ContextVersionMajor, 4) // OR 2
@@ -133,13 +133,13 @@ var (
 )
 
 /*
-	Basic example to draw an opengl blue triangle in Go using go-gl : https://github.com/go-gl/
-	based on : https://learnopengl.com/Getting-started/Hello-Triangle
-	to install the module dependencies :
-	go get -u github.com/go-gl/glfw/v3.3/glfw
-	go get -u github.com/go-gl/gl/v4.1-core/gl
-	and as usual to run it just :
-	go run openGLTriangle.go
+Basic example to draw an opengl blue triangle in Go using go-gl : https://github.com/go-gl/
+based on : https://learnopengl.com/Getting-started/Hello-Triangle
+to install the module dependencies :
+go get -u github.com/go-gl/glfw/v3.3/glfw
+go get -u github.com/go-gl/gl/v4.1-core/gl
+and as usual to run it just :
+go run openGLTriangle.go
 */
 func main() {
 	fmt.Println("About to initialize glfw")

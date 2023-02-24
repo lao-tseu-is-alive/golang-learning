@@ -1,3 +1,4 @@
+//go:build !windows
 // +build !windows
 
 // Build Constraints : https://golang.org/pkg/go/build/#hdr-Build_Constraints

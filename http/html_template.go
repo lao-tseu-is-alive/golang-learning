@@ -17,7 +17,7 @@ type TodoPageData struct {
 }
 
 /*
-	more info here : https://gowebexamples.com/templates/
+more info here : https://gowebexamples.com/templates/
 */
 func main() {
 	tmpl := template.Must(template.ParseFiles("./html/layout.html"))

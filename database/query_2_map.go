@@ -9,7 +9,8 @@ import (
 
 const selOne = "SELECT id,title,content FROM post WHERE ID = $1;"
 
-/**
+/*
+*
 Sometimes the result of the query or the structure of the table is not clear,
 and the result needs to be extracted to some flexible structure.
 This brings us to this recipe, where the extraction of values mapped

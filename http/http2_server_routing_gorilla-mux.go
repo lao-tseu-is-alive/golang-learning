@@ -159,11 +159,14 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	check(err)
 }
 
-/**
+/*
+*
 will handle the creation of a "new" Book entry
 you can test with :
 curl -kvv -H "Content-Type: application/json" -d '{"title":"hello world", "authors":"Harold Wellington"}' https://localhost:8080/books/21
- **/
+
+	*
+*/
 func CreateBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	decoder := json.NewDecoder(r.Body)
@@ -228,7 +231,7 @@ func ReadBook(w http.ResponseWriter, r *http.Request) {
 }
 
 /*
-	very basic middleware which logs the URI of the request being handled could be written as:
+very basic middleware which logs the URI of the request being handled could be written as:
 */
 func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

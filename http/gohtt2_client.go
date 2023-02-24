@@ -16,7 +16,7 @@ const url = "https://localhost:8000"
 var httpVersion = flag.Int("version", 2, "HTTP version")
 
 /*
- code from article : https://developpaper.com/the-http-2-server-function-of-go-language-and-the-use-of-client/
+code from article : https://developpaper.com/the-http-2-server-function-of-go-language-and-the-use-of-client/
 */
 func main() {
 	flag.Parse()

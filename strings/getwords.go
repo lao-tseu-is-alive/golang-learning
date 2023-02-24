@@ -11,7 +11,9 @@ import (
 	"unicode/utf8"
 )
 
-/* allow you to pipe a text into this unix filter program and get back the list of utf8 words one by line
+/*
+	allow you to pipe a text into this unix filter program and get back the list of utf8 words one by line
+
 cat your_utf8_text.txt | getwords --min-length=2 --show-line-number=0
 by combining with classical unix filters you can get a ordered list of top ten most used words in the text !
 cat your_utf8_text.txt | getwords --min-length=3 --show-line-number=0 -convert-to-case=l |sort |uniq -c |sort -nr | head

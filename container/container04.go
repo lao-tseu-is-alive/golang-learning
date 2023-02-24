@@ -9,17 +9,20 @@ import (
 
 const ROOTFS = "/home/cgil/go/src/github.com/lao-tseu-is-alive/golang-learning/container/alpinelinux_2.10.4-r2/ROOTFS"
 
-/***
-	Inspired by the great presentation from Liz Rice "Containers from Scratch"
-	https://www.youtube.com/watch?v=8fi7uSYlOdc
-	the idea is to create our own go program that will allow doing the same as :
-	docker run -it --rm ubuntu bash
-	docker run --interactive --tty ubuntu bash
-	and then apply constrained resources :
-	https://docs.docker.com/config/containers/resource_constraints/
-	docker run -it -m64m --rm ubuntu bash
-	Sécurité des infrastructures de virtualisation : https://tim.siosm.fr/cours/static/2018-2019/infra-virt-sec-print.pdf
- ***/
+/*
+**
+
+		Inspired by the great presentation from Liz Rice "Containers from Scratch"
+		https://www.youtube.com/watch?v=8fi7uSYlOdc
+		the idea is to create our own go program that will allow doing the same as :
+		docker run -it --rm ubuntu bash
+		docker run --interactive --tty ubuntu bash
+		and then apply constrained resources :
+		https://docs.docker.com/config/containers/resource_constraints/
+		docker run -it -m64m --rm ubuntu bash
+		Sécurité des infrastructures de virtualisation : https://tim.siosm.fr/cours/static/2018-2019/infra-virt-sec-print.pdf
+	 **
+*/
 func main() {
 	if len(os.Args) > 1 {
 		switch os.Args[1] {
@@ -37,8 +40,8 @@ func main() {
 }
 
 /*
- in this version, we still use namespace  by setting  CLONE_NEWUTS,
- but we also duplicate the process so that we can set some context on the child
+in this version, we still use namespace  by setting  CLONE_NEWUTS,
+but we also duplicate the process so that we can set some context on the child
 */
 func run04() {
 	fmt.Printf("PID[%d] About to run : %v \n ", os.Getpid(), os.Args[2:])
@@ -60,9 +63,9 @@ func run04() {
 }
 
 /*
- now inside the child process after pid=1 and specific hostname for the gocontainer
- we mount a specific filesystem and use chroot to isolate this  process
- so what if you really want to see only your container world
+now inside the child process after pid=1 and specific hostname for the gocontainer
+we mount a specific filesystem and use chroot to isolate this  process
+so what if you really want to see only your container world
 */
 func child04() {
 	fmt.Printf("PID[%d] About to run child : %v\n", os.Getpid(), os.Args[2:])

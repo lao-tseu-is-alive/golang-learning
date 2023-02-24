@@ -18,12 +18,15 @@ func (e ErrNegativeSqrt) Error() string {
 	return err
 }
 
-/**
+/*
+*
 
 Computers typically compute the square root of x using a loop.
 Starting with some guess z, we can adjust z based on how close z² is to x,
 producing a better guess:
+
 	z -= (z*z - x) / (2*z)
+
 Repeating this adjustment makes the guess better and better until we reach
 an answer that is as close to the actual square root as can be.
 Experiment inspired by lesson 8 of flowcontrol in "A Tour of Go"
@@ -35,7 +38,6 @@ by how quickly z² is changing.
 This general approach is called Newton's method.
 https://en.wikipedia.org/wiki/Newton%27s_method
 It works well for many functions but especially well for square root.)
-
 */
 func Sqrt(x float64) (float64, error) {
 	golog.Un(golog.Trace("In Sqrt(%v)", x))

@@ -9,7 +9,9 @@ type Vertex struct {
 	X, Y float64
 }
 
-/* a method is just a function with a receiver argument.
+/*
+	a method is just a function with a receiver argument.
+
 here the VertexInt type
 */
 func (v Vertex) Abs() float64 {
@@ -17,8 +19,8 @@ func (v Vertex) Abs() float64 {
 }
 
 /*
-	You can declare methods with pointer receivers.
-	This means the receiver type has the literal syntax *T for some type T.
+You can declare methods with pointer receivers.
+This means the receiver type has the literal syntax *T for some type T.
 */
 func (v *Vertex) Scale(f float64) {
 	v.X = v.X * f

@@ -11,7 +11,7 @@ func init() {
 	runtime.LockOSThread()
 }
 
-//getWindow returns a valid window
+// getWindow returns a valid window
 func getGlfWindow(title string, width int, height int) *glfw.Window {
 	glfw.WindowHint(glfw.Resizable, glfw.True)
 	glfw.WindowHint(glfw.ContextVersionMajor, 4) // OR 2
@@ -28,9 +28,9 @@ func getGlfWindow(title string, width int, height int) *glfw.Window {
 }
 
 /*
-	Basic example to open a window using glfw : https://github.com/go-gl/glfw
-	to install the dependencies :
-	go get -u github.com/go-gl/glfw/v3.3/glfw
+Basic example to open a window using glfw : https://github.com/go-gl/glfw
+to install the dependencies :
+go get -u github.com/go-gl/glfw/v3.3/glfw
 */
 func main() {
 	fmt.Println("About to initialize glfw")

@@ -2,9 +2,11 @@ package main
 
 import "fmt"
 
-/* fibonacci is a function that returns
- a function that returns an int.
- 0, 1, 1, 2, 3, 5, 8, 13 and 21
+/*
+	fibonacci is a function that returns
+	a function that returns an int.
+	0, 1, 1, 2, 3, 5, 8, 13 and 21
+
 https://en.wikipedia.org/wiki/Fibonacci_number
 */
 func fibonacci() func() int {

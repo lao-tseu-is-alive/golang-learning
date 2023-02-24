@@ -71,7 +71,9 @@ func normalize(s string, toLower bool) string {
 	return res
 }
 
-/* runesUnicode will allow you to see every rune in the string and the underlying bytes
+/*
+	runesUnicode will allow you to see every rune in the string and the underlying bytes
+
 example output of single run :
 cgil@pulsar2021:~/cgdev/golang/golang-learning/strings$ go run runesUnicode.go
 go run runesUnicode.go
@@ -90,8 +92,6 @@ character '𝕒' [U+1D552] MATHEMATICAL DOUBLE-STRUCK SMALL A, 	normalized:'a'  
 2: 	 149 [95]
 3: 	 146 [92]
 the string '🔥ℂ𝕒' contains 11 bytes, and 3 runes
-
-
 */
 func main() {
 	sampleText := "🔥ℂ𝕒𝕣𝕝𝕠𝕤❤️☯１２３C͎A͓̽RL҉O҉S҉ ҉҉̾ \v\a💌 💕💞💓💗💖💘💝💟💜💛🧡️💚💙💔🌲️🌳️🌴️🌍️🏔️☀️🌞️⭐️💥"
