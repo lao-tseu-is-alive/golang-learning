@@ -12,7 +12,6 @@ require (
 	github.com/gorilla/sessions v1.2.1
 	github.com/gorilla/websocket v1.5.0
 	github.com/jackc/pgx/v4 v4.18.0
-	github.com/labstack/echo v3.3.10+incompatible
 	github.com/lao-tseu-is-alive/golog v0.1.1
 	github.com/lao-tseu-is-alive/goutils v0.0.0-20190805150442-13b99042493b
 	github.com/lao-tseu-is-alive/kping v0.0.0-20190926062306-db2d9f67c3d9
@@ -30,7 +29,6 @@ require (
 )
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/google/gopacket v1.1.19 // indirect
 	github.com/google/uuid v1.2.0 // indirect
@@ -46,13 +44,10 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgtype v1.14.0 // indirect
 	github.com/jackc/puddle v1.3.0 // indirect
-	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.11 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasttemplate v1.2.2 // indirect
 	golang.org/x/image v0.0.0-20211028202545-6944b10bf410 // indirect
 	honnef.co/go/js/dom v0.0.0-20221001195520-26252dedbe70 // indirect
 )
