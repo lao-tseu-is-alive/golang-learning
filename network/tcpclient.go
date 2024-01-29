@@ -10,28 +10,28 @@ import (
 	"time"
 )
 
-type StringServer string
+type HelloServer string
 
-func (s StringServer) ServeHTTP(rw http.ResponseWriter,
+func (s HelloServer) ServeHTTP(rw http.ResponseWriter,
 	req *http.Request) {
 	rw.Write([]byte(string(s)))
 }
 
-func createServer(addr string) http.Server {
+func createMyHttpServer(addr string) http.Server {
 	return http.Server{
 		Addr:    addr,
-		Handler: StringServer("HELLO GOPHER!\n"),
+		Handler: HelloServer("HELLO GOPHER!\n"),
 	}
 }
 
-const addr = "localhost:7070"
+const defaultHttpAddr = "localhost:7070"
 
 func main() {
-	s := createServer(addr)
+	s := createMyHttpServer(defaultHttpAddr)
 	go s.ListenAndServe()
 
 	// Connect with plain TCP
-	conn, err := net.Dial("tcp", addr)
+	conn, err := net.Dial("tcp", defaultHttpAddr)
 	if err != nil {
 		panic(err)
 	}
@@ -53,5 +53,3 @@ func main() {
 	s.Shutdown(ctx)
 
 }
-
-//5.VevsswFAc9$Yj
