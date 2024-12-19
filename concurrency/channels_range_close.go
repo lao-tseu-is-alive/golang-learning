@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func fibonacci(n int, c chan int) {
+func fibonacciChannels(n int, c chan int) {
 	x, y := 0, 1
 	for i := 0; i < n; i++ {
 		// Note: Only the sender should close a channel, never the receiver.
@@ -26,7 +26,7 @@ ok is false if there are no more values to receive and the channel is closed.
 
 func main() {
 	c := make(chan int, 99)
-	go fibonacci(cap(c), c) // The cap built-in function returns the capacity of v, according to its type:
+	go fibonacciChannels(cap(c), c) // The cap built-in function returns the capacity of v, according to its type:
 	// so the loop for i := range c receives values from the channel repeatedly until it is closed.
 	for i := range c {
 		fmt.Println(i)

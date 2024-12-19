@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-var names = []interface{}{"Alan", "Joe", "Jack", "Ben",
+var namesOnce = []interface{}{"Alan", "Joe", "Jack", "Ben",
 	"Ellen", "Lisa", "Carl", "Steve",
 	"Anton", "Yo"}
 
@@ -18,6 +18,7 @@ and the function is executed only once per Once instance, during the execution.
 The Do method calls blocks until the first run is done.
 This fact corresponds with the fact that Once is intended to be used for initialization.
 */
+
 type Source struct {
 	m    *sync.Mutex
 	o    *sync.Once
@@ -28,7 +29,7 @@ func (s *Source) Pop() (interface{}, error) {
 	s.m.Lock()
 	defer s.m.Unlock()
 	s.o.Do(func() {
-		s.data = names
+		s.data = namesOnce
 		fmt.Println("Data has been loaded.")
 	})
 	if len(s.data) > 0 {
