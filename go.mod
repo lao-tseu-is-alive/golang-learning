@@ -19,7 +19,7 @@ require (
 	github.com/tatsushid/go-fastping v0.0.0-20160109021039-d7bb493dee3e
 	gocv.io/x/gocv v0.32.1
 	golang.org/x/crypto v0.31.0
-	golang.org/x/net v0.23.0
+	golang.org/x/net v0.33.0
 	golang.org/x/sync v0.10.0
 	golang.org/x/sys v0.28.0
 	golang.org/x/text v0.21.0
