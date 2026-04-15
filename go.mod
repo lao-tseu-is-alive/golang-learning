@@ -1,8 +1,6 @@
 module github.com/lao-tseu-is-alive/golang-learning
 
-go 1.24.0
-
-toolchain go1.24.5
+go 1.25.0
 
 require (
 	github.com/go-gl/gl v0.0.0-20231021071112-07e5d0ea2e71
@@ -22,9 +20,9 @@ require (
 	gocv.io/x/gocv v0.41.0
 	golang.org/x/crypto v0.45.0
 	golang.org/x/net v0.47.0
-	golang.org/x/sync v0.18.0
+	golang.org/x/sync v0.20.0
 	golang.org/x/sys v0.38.0
-	golang.org/x/text v0.31.0
+	golang.org/x/text v0.35.0
 	golang.org/x/time v0.12.0
 	golang.org/x/tour v0.1.0
 	gopkg.in/ini.v1 v1.67.0
@@ -50,6 +48,6 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	golang.org/x/image v0.18.0 // indirect
+	golang.org/x/image v0.38.0 // indirect
 	honnef.co/go/js/dom v0.0.0-20221001195520-26252dedbe70 // indirect
 )
