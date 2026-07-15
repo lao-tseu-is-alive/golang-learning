@@ -18,11 +18,11 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/tatsushid/go-fastping v0.0.0-20160109021039-d7bb493dee3e
 	gocv.io/x/gocv v0.41.0
-	golang.org/x/crypto v0.45.0
-	golang.org/x/net v0.47.0
+	golang.org/x/crypto v0.51.0
+	golang.org/x/net v0.55.0
 	golang.org/x/sync v0.20.0
-	golang.org/x/sys v0.38.0
-	golang.org/x/text v0.35.0
+	golang.org/x/sys v0.45.0
+	golang.org/x/text v0.37.0
 	golang.org/x/time v0.12.0
 	golang.org/x/tour v0.1.0
 	gopkg.in/ini.v1 v1.67.0
