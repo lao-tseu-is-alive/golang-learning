@@ -111,8 +111,8 @@ func main() {
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	listenAddr := fmt.Sprintf("%s:%v", defaultHost, port)
 	listenInfo := fmt.Sprintf("Server is listening on  : %v\n", listenAddr)
-	logger.Printf(listenInfo)
-	golog.Info(listenInfo)
+	logger.Print(listenInfo)
+	golog.Info("%s", listenInfo)
 	mux := http.NewServeMux()
 	fmt.Println("#Method\tUrl\tProto\tPath\tRemoteAdr")
 

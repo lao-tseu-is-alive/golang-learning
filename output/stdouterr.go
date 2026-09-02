@@ -26,5 +26,5 @@ func main() {
 
 	// The fmt package
 	// could be used too
-	fmt.Fprintln(os.Stdout, "\n")
+	fmt.Fprintln(os.Stdout)
 }

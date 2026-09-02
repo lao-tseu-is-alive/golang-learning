@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -26,7 +27,7 @@ func main() {
 		g.Go(func() error {
 			return func(s string) error {
 				if strings.Contains(s, "error:") {
-					return fmt.Errorf(s)
+					return errors.New(s)
 				}
 				return nil
 			}(row)

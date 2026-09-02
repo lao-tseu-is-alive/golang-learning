@@ -19,7 +19,7 @@ func main() {
 	err := http.ListenAndServe(":8080", r)
 	if err != nil {
 		msg := fmt.Sprintf("ERROR when ListenAndServe : %v", err)
-		golog.Err(msg)
+		golog.Err("%s", msg)
 		log.Println(msg)
 		os.Exit(1)
 	}

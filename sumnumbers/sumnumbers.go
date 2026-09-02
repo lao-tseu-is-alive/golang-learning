@@ -19,31 +19,31 @@ func main() {
 	numbers := args[1:]
 	if len(args) > 1 {
 		if isVerbose {
-			golog.Info(fmt.Sprintf("%s was called whith those arguments :", app))
+			golog.Info("%s was called with these arguments:", app)
 			// The rest of the arguments could be obtained by omitting the first argument.
 
 			for idx, arg := range numbers {
-				golog.Info(fmt.Sprintf("Arg %d = %s \n", idx, arg))
+				golog.Info("Arg %d = %s", idx, arg)
 			}
 		}
 
 		if len(numbers) < 1 {
-			golog.Warn(fmt.Sprintf("I did not receive any numbers, so result is obviously : %s", "zero"))
+			golog.Warn("I did not receive any numbers, so the result is %s", "zero")
 		} else {
 			var sum int64 = 0
 			for idx, arg := range numbers {
 				if isVerbose {
-					golog.Warn(fmt.Sprintf("(sum = %d) will try to add arg[%d]=%s ", sum, idx, arg))
+					golog.Warn("(sum = %d) will try to add arg[%d]=%s", sum, idx, arg)
 				}
 				num, err := strconv.ParseInt(arg, 10, 64)
 				if err != nil {
-					golog.Err(fmt.Sprintf("Array[%d]=%s IS NOT A VALID INTEGER bypassing this one !", idx, arg))
+					golog.Err("Array[%d]=%s is not a valid integer; skipping it", idx, arg)
 				} else {
 					sum += num
 				}
 			}
 			if isVerbose {
-				golog.Info(fmt.Sprintf("Array sum total is = %d", sum))
+				golog.Info("Array sum total is = %d", sum)
 			}
 			fmt.Println(sum)
 		}

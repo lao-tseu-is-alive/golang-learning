@@ -19,7 +19,7 @@ func trace() {
 
 func innerFunction() {
 	defer golog.Un(golog.Trace("innerFunction"))
-	golog.PrintCallStack()
+	trace()
 }
 func outerFunction() {
 	defer golog.Un(golog.Trace("outerFunction"))

@@ -12,7 +12,7 @@ import (
 func main() {
 	exeFullPath, err := os.Executable()
 	if err != nil {
-		log.Fatalln("Error getting Executable Path ! %v", err)
+		log.Fatalf("Error getting executable path: %v", err)
 	}
 	golog.Info("Full path of executable : %s", exeFullPath)
 	exeDirectory := filepath.Dir(exeFullPath)
@@ -20,13 +20,13 @@ func main() {
 	// Use EvalSymlinks to get the real path.
 	realPath, err := filepath.EvalSymlinks(exeDirectory)
 	if err != nil {
-		log.Fatalln("Error getting real Path ! %v", err)
+		log.Fatalf("Error getting real path: %v", err)
 	}
 	golog.Info("Symlink evaluated  dir  : %s", realPath)
 
 	workingDirectory, err := os.Getwd()
 	if err != nil {
-		log.Fatalln("Error getting working directory ! %v", err)
+		log.Fatalf("Error getting working directory: %v", err)
 	}
 	golog.Info("Current working directory: %s", workingDirectory)
 	// detecting OS at runtime next line gives you linux or windows etc..

@@ -30,7 +30,7 @@ func main() {
 		}
 		return in
 	})
-	golog.Info("Email password found for authentification is : %s", pass)
+	golog.Info("Email password was found in configuration")
 
 	var emailTo string
 	fmt.Println("Enter receiving email : ")

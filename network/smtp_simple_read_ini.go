@@ -15,7 +15,7 @@ func main() {
 	var (
 		from       = "golang@example.net"
 		msg        = []byte("Subject: GOLANG TEST \n\nHello, this email was send from a golang program !\nIt is just a test email from inside the matrix ...")
-		recipients = []string{"lao.tseu.is.alive@gmail.com"}
+		recipients = []string{"recipient@example.com"}
 		// hostname is used by PlainAuth to validate the TLS certificate.
 		hostname = "smtp.gmail.com"
 	)
@@ -38,13 +38,13 @@ func main() {
 	pass := cfg.Section("production").Key("email_password").Validate(func(in string) string {
 		if len(in) == 0 {
 			golog.Err("No valid user password found in configuration")
-			return "postgres"
+			return ""
 		}
 		return in
 	})
 	golog.Info("Email password found for authentification was found !")
 
-	auth := smtp.PlainAuth("", username, "postgres", hostname)
+	auth := smtp.PlainAuth("", username, pass, hostname)
 
 	err = smtp.SendMail(hostname+":587", auth, from, recipients, msg)
 	if err != nil {

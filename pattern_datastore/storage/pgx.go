@@ -5,8 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/jackc/pgx/v4"
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/lao-tseu-is-alive/golog"
 )
 
@@ -20,45 +19,32 @@ type PGX struct {
 }
 
 func NewPgxDB(dbConnectionString string, maxConnectionsInPool int) (DB, error) {
-	var psql PGX
-	var successOrFailure string = "OK"
-
-	var parsedConfig *pgx.ConnConfig
-	var err error
-	parsedConfig, err = pgx.ParseConfig(dbConnectionString)
+	parsedConfig, err := pgxpool.ParseConfig(dbConnectionString)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("parse PostgreSQL configuration: %w", err)
+	}
+	parsedConfig.MaxConns = int32(maxConnectionsInPool)
+
+	connPool, err := pgxpool.NewWithConfig(context.Background(), parsedConfig)
+	if err != nil {
+		return nil, fmt.Errorf("create PostgreSQL connection pool: %w", err)
 	}
 
-	dbHost := parsedConfig.Host
-	dbPort := parsedConfig.Port
-	dbUser := parsedConfig.User
-	dbPass := parsedConfig.Password
-	dbName := parsedConfig.Database
-
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s pool_max_conns=%d", dbHost, dbPort, dbUser, dbPass, dbName, maxConnectionsInPool)
-
-	fmt.Println("--------------------------------------------------------------------------------------------")
-	fmt.Println(dsn)
-	connPool, err := pgxpool.Connect(context.Background(), dsn)
-	if err != nil {
-		successOrFailure = "FAILED"
-		golog.Info("Connecting to database %s as user %s : %s \n", dbName, dbUser, successOrFailure)
-		golog.Fatal("ERROR TRYING DB CONNECTION : %v ", err)
-	} else {
-		golog.Info("Connecting to database %s as user %s : %s \n", dbName, dbUser, successOrFailure)
-		golog.Info("Fetching one record to test if db connection is valid...\n")
-		var version string
-		if errPing := connPool.QueryRow(context.Background(), getPGVersion).Scan(&version); errPing != nil {
-			golog.Err("Connection is invalid ! ")
-			golog.Fatal("DB ERROR scanning row: %s", errPing)
-		}
-		golog.Info("SUCCESS Connecting to Postgres version : [%s]", version)
+	var version string
+	if err := connPool.QueryRow(context.Background(), getPGVersion).Scan(&version); err != nil {
+		connPool.Close()
+		return nil, fmt.Errorf("verify PostgreSQL connection: %w", err)
 	}
 
-	fmt.Println("--------------------------------------------------------------------------------------------")
-	psql.Conn = connPool
-	return &psql, err
+	golog.Info(
+		"Connected to PostgreSQL database %s on %s:%d as user %s (version: %s)",
+		parsedConfig.ConnConfig.Database,
+		parsedConfig.ConnConfig.Host,
+		parsedConfig.ConnConfig.Port,
+		parsedConfig.ConnConfig.User,
+		version,
+	)
+	return &PGX{Conn: connPool}, nil
 }
 
 func (db *PGX) New(val Todo) (string, error) {

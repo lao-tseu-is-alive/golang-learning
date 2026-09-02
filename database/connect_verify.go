@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/lao-tseu-is-alive/golog"
 	"github.com/lao-tseu-is-alive/goutils"
 	"time"
 
@@ -16,7 +15,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	golog.Info("Connection string : [%s]", connStr)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		panic(err)

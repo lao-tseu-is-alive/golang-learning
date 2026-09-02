@@ -10,9 +10,9 @@ import (
 )
 
 func main() {
-	dbDriver := flag.String("db", "pgx", "db connection driver [values: pgx || memory ]")
+	dbDriver := flag.String("db", "memory", "db connection driver [values: pgx || memory]")
 	dbConnectionString := flag.String("db_connection_string",
-		"host=localhost user=gouser password=gouser-2019 dbname=golangdb sslmode=disable",
+		"",
 		"db connection string")
 	flag.Parse()
 	// init database with appropriate driver

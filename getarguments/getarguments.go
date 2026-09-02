@@ -42,7 +42,7 @@ func main() {
 	// Without this call the flag variables remain empty.
 	flag.Parse()
 
-	golog.Info(fmt.Sprintf("%s was called whith those arguments :", app))
+	golog.Info("%s was called with these arguments:", app)
 	// The rest of the arguments could be obtained
 	// by omitting the first argument.
 	otherArgs := args[1:]
@@ -50,30 +50,30 @@ func main() {
 	fmt.Println(otherArgs)
 
 	for idx, arg := range otherArgs {
-		golog.Info(fmt.Sprintf("Arg %d = %s \n", idx, arg))
+		golog.Info("Arg %d = %s", idx, arg)
 	}
 
 	if *retry == -1 {
 		golog.Err("you should provide a valid parameter -retry as number of retries")
 	} else {
-		golog.Warn(fmt.Sprintf("retry value is : %d", *retry))
+		golog.Warn("retry value is: %d", *retry)
 	}
 	if len(infoPrefix) > 0 {
-		golog.Warn(fmt.Sprintf("prefix value is : %s", infoPrefix))
+		golog.Warn("prefix value is: %s", infoPrefix)
 	}
 
 	if len(arr) > 0 {
 		var sum int64 = 0
 		for idx, arg := range arr {
-			golog.Warn(fmt.Sprintf("Array[%d]=%s", idx, arg))
+			golog.Warn("Array[%d]=%s", idx, arg)
 			num, err := strconv.ParseInt(arg, 10, 64)
 			if err != nil {
-				golog.Err(fmt.Sprintf("Array[%d]=%s IS NOT A VALID INTEGER bypassing this one !", idx, arg))
+				golog.Err("Array[%d]=%s is not a valid integer; skipping it", idx, arg)
 			} else {
 				sum += num
 			}
 		}
-		golog.Info(fmt.Sprintf("Array sum total is = %d", sum))
+		golog.Info("Array sum total is = %d", sum)
 	}
 
 }

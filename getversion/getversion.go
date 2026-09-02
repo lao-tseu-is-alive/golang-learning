@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/lao-tseu-is-alive/golog"
 	"log"
 	"runtime"
+
+	"github.com/lao-tseu-is-alive/golog"
 )
 
 const app = "getversion"

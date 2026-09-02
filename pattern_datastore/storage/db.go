@@ -3,7 +3,6 @@ package storage
 import (
 	"errors"
 	"fmt"
-	"runtime"
 )
 
 var (
@@ -30,7 +29,7 @@ func InitDB(dbDriver, dbConnectionString string, maxConnectionCount int) (DB, er
 	var db DB
 
 	if dbDriver == "pgx" {
-		db, err = NewPgxDB(dbConnectionString, runtime.NumCPU())
+		db, err = NewPgxDB(dbConnectionString, maxConnectionCount)
 		if err != nil {
 			return nil, fmt.Errorf("error opening postgresql database with pgx driver: %s", err)
 		}

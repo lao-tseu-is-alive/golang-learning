@@ -35,12 +35,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("\n######################################################################\n")
+	fmt.Print("\n######################################################################\n\n")
 	fmt.Println("\n######## And now Ladies & Gentleman the Windows-1252 decoded in utf-8 : ########\n" + string(b))
 
 	decodedContent := goutils.GetFileTextContent(filePath, "Windows1252")
 
-	fmt.Println("\n######################################################################\n")
+	fmt.Print("\n######################################################################\n\n")
 	fmt.Println("\n######## And now using getFileTextContent(filePath, 'Windows1252') : ########\n" + decodedContent)
 
 }

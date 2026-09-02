@@ -41,7 +41,7 @@ func main() {
 	var result Result
 	err = client.Call("RpcServer.Add", args, &result)
 	if err != nil {
-		golog.Err("error in RpcServer", err)
+		golog.Err("error in RpcServer: %v", err)
 		os.Exit(1)
 	}
 	log.Printf("%d+%d=%d\n", args.A, args.B, result)

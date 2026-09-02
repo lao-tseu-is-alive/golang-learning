@@ -44,9 +44,9 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	tempFile, err := ioutil.TempFile("temp_upload", fmt.Sprintf("upload-*%s", extension))
 	if err != nil {
 		errMsg := fmt.Sprintf("Error creating temp file :%v", err)
-		golog.Err(errMsg)
+		golog.Err("%s", errMsg)
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, errMsg)
+		fmt.Fprint(w, errMsg)
 		return
 	}
 	defer tempFile.Close()
@@ -55,18 +55,18 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
 		errMsg := fmt.Sprintf("Error reading uploaded file :%v", err)
-		golog.Err(errMsg)
+		golog.Err("%s", errMsg)
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, errMsg)
+		fmt.Fprint(w, errMsg)
 		return
 	}
 	// write this byte array to our temporary file
 	n, err := tempFile.Write(fileBytes)
 	if err != nil {
 		errMsg := fmt.Sprintf("Error writing temp file :%v", err)
-		golog.Err(errMsg)
+		golog.Err("%s", errMsg)
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, errMsg)
+		fmt.Fprint(w, errMsg)
 		return
 	}
 	// return that we have successfully uploaded our file!

@@ -16,7 +16,11 @@ func main() {
 		golog.Warn("USER ENV Variable is not set !")
 	}
 
-	golog.Info("DB_CONN ENV VARIABLE VALUE IS : %s", goutils.GetEnvOrDefault("DB_CONN", "dbuser:dbpass@localhost"))
+	if _, exists := os.LookupEnv("DB_CONN"); exists {
+		golog.Info("DB_CONN environment variable is set (value hidden)")
+	} else {
+		golog.Warn("DB_CONN environment variable is not set")
+	}
 
 	err := os.Setenv("_MY_NICE_ENV_UUID", goutils.GetUUID())
 	if err != nil {
@@ -25,9 +29,8 @@ func main() {
 
 	// listing all environment variables
 	for _, env := range os.Environ() {
-		key, val := goutils.GetKeyValue(env, "=")
-		golog.Warn(env)
-		golog.Info("Key: %s \t Value: %s ", key, val)
+		key, _ := goutils.GetKeyValue(env, "=")
+		golog.Info("Environment key: %s", key)
 	}
 
 }

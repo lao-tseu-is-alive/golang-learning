@@ -180,8 +180,8 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 	title := strings.TrimSpace(data.Title)
 	// title should be at least 3 chars long
 	if len(title) < 3 {
-		msg := fmt.Sprintf("invalid title parameter")
-		golog.Err(msg)
+		const msg = "invalid title parameter"
+		golog.Err("%s", msg)
 		http.Error(w, msg, http.StatusBadRequest)
 		return
 	}
@@ -207,7 +207,7 @@ func ReadBook(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil || id < 0 {
 		msg := fmt.Sprintf("invalid books id parameter  err: %v", err)
-		golog.Err(msg)
+		golog.Err("%s", msg)
 		http.Error(w, msg, http.StatusBadRequest)
 		return
 	}
@@ -221,7 +221,7 @@ func ReadBook(w http.ResponseWriter, r *http.Request) {
 	data, err := json.Marshal(aBook)
 	if err != nil {
 		msg := fmt.Sprintf("problem doing json.Marshal error : %v", err)
-		golog.Err(msg)
+		golog.Err("%s", msg)
 		http.Error(w, msg, http.StatusInternalServerError)
 		return
 	}
@@ -242,7 +242,7 @@ func loggingMiddleware(next http.Handler) http.Handler {
 			urlString = html.UnescapeString("#URL_DECODE_ERROR#")
 		}
 		logLine := fmt.Sprintf("%s\t%s\t%s\t%s\t%s\t%s\n", r.Method, urlString, r.Proto, r.URL.Path, r.RemoteAddr, r.Host)
-		golog.Info(logLine)
+		golog.Info("%s", logLine)
 		log.Println(fmt.Sprintf("[%s]\t%s", golog.GetTimeStamp(), logLine))
 		// Call the next handler, which can be another middleware in the chain, or the final handler.
 		next.ServeHTTP(w, r)
@@ -267,8 +267,8 @@ func main() {
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	listenAddr := fmt.Sprintf("%s:%v", defaultHost, port)
 	listenInfo := fmt.Sprintf("### Server started and listening on  : %v\n", listenAddr)
-	logger.Printf(listenInfo)
-	golog.Info(listenInfo)
+	logger.Print(listenInfo)
+	golog.Info("%s", listenInfo)
 	gomux := mux.NewRouter()
 	logger.Println("#Method\tUrl\tProto\tPath\tRemoteAdr")
 
@@ -303,7 +303,7 @@ func main() {
 		err := srv.ListenAndServeTLS(SSLCertificate, SSLCertKeyFile)
 		if err != nil {
 			msg := fmt.Sprintf("ERROR when ListenAndServeTLS : %v", err)
-			golog.Err(msg)
+			golog.Err("%s", msg)
 			log.Println(msg)
 			os.Exit(1)
 		}

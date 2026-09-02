@@ -71,7 +71,7 @@ func run05() {
 	}
 
 	if err := cmd.Run(); err != nil {
-		golog.Err("ERROR doing cmd.Run()", err)
+		golog.Err("ERROR doing cmd.Run(): %v", err)
 		os.Exit(1)
 	}
 }
@@ -92,29 +92,29 @@ func child05() {
 	cmd.Stderr = os.Stderr
 	// setting the hostname visible inside your go container
 	if err := syscall.Sethostname([]byte("gocontainer05")); err != nil {
-		golog.Err("ERROR doing syscall.Sethostname()", err)
+		golog.Err("ERROR doing syscall.Sethostname(): %v", err)
 		os.Exit(1)
 	}
 	if err := syscall.Chroot(ROOTFS); err != nil {
-		golog.Err("ERROR doing syscall.Chroot(ROOTFS)", err)
+		golog.Err("ERROR doing syscall.Chroot(ROOTFS): %v", err)
 		os.Exit(1)
 	}
 	if err := syscall.Chdir("/"); err != nil {
-		golog.Err("ERROR doing syscall.Chdir(/)", err)
+		golog.Err("ERROR doing syscall.Chdir(/): %v", err)
 		os.Exit(1)
 	}
 	if err := syscall.Mount("proc", "proc", "proc", 0, ""); err != nil {
-		golog.Err("ERROR doing syscall.Mount(proc ...)", err)
+		golog.Err("ERROR doing syscall.Mount(proc ...): %v", err)
 		os.Exit(1)
 	}
 
 	if err := cmd.Run(); err != nil {
-		golog.Err("ERROR doing cmd.Run()", err)
+		golog.Err("ERROR doing cmd.Run(): %v", err)
 		os.Exit(1)
 	}
 
 	if err := syscall.Unmount("/proc", 0); err != nil {
-		golog.Err("ERROR doing syscall.Unmount(proc)", err)
+		golog.Err("ERROR doing syscall.Unmount(proc): %v", err)
 		os.Exit(1)
 	}
 }
@@ -135,18 +135,18 @@ func cgMaxProcess(maxProcess int) {
 
 	err := ioutil.WriteFile(filepath.Join(fullPidsPath, "pids.max"), []byte(strconv.Itoa(maxProcess)), 0700)
 	if err != nil {
-		golog.Err("ERROR in cgMaxProcess writing pids.max", err)
+		golog.Err("ERROR in cgMaxProcess writing pids.max: %v", err)
 		os.Exit(1)
 	}
 	// Removes the new cgroup in place after the container exits
 	err = ioutil.WriteFile(filepath.Join(fullPidsPath, "notify_on_release"), []byte("1"), 0700)
 	if err != nil {
-		golog.Err("ERROR in cgMaxProcess writing notify_on_release", err)
+		golog.Err("ERROR in cgMaxProcess writing notify_on_release: %v", err)
 		os.Exit(1)
 	}
 	err = ioutil.WriteFile(filepath.Join(fullPidsPath, "cgroup.procs"), []byte(strconv.Itoa(os.Getpid())), 0700)
 	if err != nil {
-		golog.Err("ERROR in cgMaxProcess writing cgroup.procs", err)
+		golog.Err("ERROR in cgMaxProcess writing cgroup.procs: %v", err)
 		os.Exit(1)
 	}
 }

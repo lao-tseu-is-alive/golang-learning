@@ -14,7 +14,6 @@ func main() {
 		golog.Err("ERROR getting connection string  to DB : %v", err)
 		panic(err)
 	}
-	golog.Info("Connection string : [%s]", connStr)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		golog.Err("ERROR connecting to DB : %v", err)
