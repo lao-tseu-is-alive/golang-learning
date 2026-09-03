@@ -14,6 +14,23 @@ Start with the standard-library topics (`functions`, `struct`, `strings`,
 `numbers`, `time`, `files`, `filesystem`, `testing`, and `concurrency`) before
 trying examples that need third-party libraries or external services.
 
+## New to Go? Start with the official resources
+
+If Go is your first compiled language, or if you have never written a Go
+program before, begin with the material maintained by the Go project:
+
+1. Visit [Learn Go](https://go.dev/learn/) to install Go and follow the
+   official getting-started tutorials.
+2. Complete [A Tour of Go](https://go.dev/tour/), the interactive introduction
+   to Go's syntax, methods, interfaces, generics, and concurrency. Try the
+   exercises rather than only reading the slides.
+3. Return here and follow the [learning path](#learning-path) to reinforce each
+   concept with small programs you can run, modify, and test locally.
+
+This repository complements the official documentation. It assumes you already
+know how to edit a `.go` file and use basic commands such as `go run` and
+`go test`.
+
 ## Requirements
 
 - [Go 1.27 or newer](https://go.dev/doc/install)
@@ -30,6 +47,39 @@ git clone https://github.com/lao-tseu-is-alive/golang-learning.git
 cd golang-learning
 go mod download
 ```
+
+## Learning path
+
+You do not need to complete every example. Follow the stages in order, choose a
+few examples from each theme guide, and move forward when you can explain the
+milestone in your own words.
+
+| Stage | Focus | Theme guides | Milestone |
+| --- | --- | --- | --- |
+| 1. Language foundations | Functions, values, methods, structs, interfaces, text, and Unicode | [`functions`](functions/README.md), [`struct`](struct/README.md), [`strings`](strings/README.md), then `numbers/` | Write small functions, define a type with methods, and safely process UTF-8 text. |
+| 2. Data and I/O | Readers, writers, files, serialization, paths, and time | [`files`](files/README.md), then `input/`, `output/`, `filesystem/`, and `time/` | Read and write data while checking errors and closing resources. |
+| 3. Verification | Unit tests, table-driven tests, examples, and benchmarks | [`testing`](testing/README.md), then `benchmark/` | Test a package and understand a useful failure message. |
+| 4. Concurrency | Goroutines, channels, cancellation, and synchronization | [`concurrency`](concurrency/README.md) | Coordinate finite concurrent work without sleeps, leaks, races, or deadlocks. |
+| 5. Programs and services | Processes, TCP/UDP, HTTP clients, servers, and WebSockets | `process/`, `network/`, and `http/` | Build a small service and shut it down cleanly. |
+| 6. Integrations | Databases, storage patterns, crypto, graphics, WebAssembly, and containers | `database/`, `pattern_datastore/`, `crypto/`, `opencv/`, `opengl/`, `wasm/`, and `container/` | Recognize external dependencies and keep integration code isolated and testable. |
+
+A short first pass through the supported core is:
+
+```sh
+go run ./functions/function-values
+go run ./struct/struct-literals
+go run ./struct/methods
+go run ./strings/reader
+go run ./strings/runes-unicode
+go run ./files/readfile README.md
+go test -v ./testing/...
+go run ./concurrency/channels
+go run ./concurrency/goroutines-with-waitgroup
+go test ./...
+```
+
+The theme guides provide the recommended order, prerequisites, and warnings for
+examples that intentionally fail, run continuously, or change files.
 
 ## Choose a theme
 
