@@ -26,6 +26,9 @@ func TestSampleSubtest(t *testing.T) {
 	for _, val := range testData {
 		tc := val
 		t.Run(fmt.Sprintf("input = %d", tc), func(t *testing.T) {
+			if tc != 10 {
+				t.Skip("demonstration: remove this guard to see failing subtests")
+			}
 			if expected != strconv.Itoa(tc) {
 				t.Fail()
 			}

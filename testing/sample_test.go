@@ -23,12 +23,14 @@ as can be seen in the preceding sample code.
 */
 
 func TestSampleOne(t *testing.T) {
+	t.Skip("demonstration: remove this line to compare failure locations")
 	expected := "11"
 	result := strconv.Itoa(10)
 	compare(expected, result, t)
 }
 
 func TestSampleTwo(t *testing.T) {
+	t.Skip("demonstration: remove this line to compare failure locations")
 	expected := "11"
 	result := strconv.Itoa(10)
 	compareWithHelper(expected, result, t)

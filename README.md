@@ -31,53 +31,95 @@ cd golang-learning
 go mod download
 ```
 
-Run an individual example by naming its file:
+## Choose a theme
 
-```sh
-go run ./functions/function_closures.go
-go run ./strings/runesUnicode.go
-go run ./concurrency/channels.go
+Each top-level directory is a theme. Every runnable example inside it has its
+own directory and a conventional `main.go`.
+
+| If you want to learn about... | Start here |
+| --- | --- |
+| Functions, interfaces, structs, and generics | `functions/`, `struct/`, `generics/`, `geometry/` |
+| Text, numbers, dates, and data conversion | `strings/`, `numbers/`, `time/` |
+| Input, output, files, and the operating system | `input/`, `output/`, `files/`, `filesystem/`, `process/`, `system/` |
+| Goroutines, channels, synchronization, and cancellation | `concurrency/` |
+| HTTP clients, servers, routing, and WebSockets | `http/` |
+| TCP, UDP, DNS, ICMP, SMTP, and RPC | `network/` |
+| SQL, PostgreSQL, and storage abstractions | `database/`, `pattern_datastore/` |
+| Hashing, password handling, and encryption | `hash/`, `crypto/` |
+| Tests and benchmarks | `testing/`, `benchmark/` |
+| Graphics, computer vision, WebAssembly, and containers | `image/`, `opengl/`, `opencv/`, `wasm/`, `container/` |
+| Arguments, environment, paths, and runtime information | `getarguments/`, `getenvvar/`, `getcwd/`, `getversion/` |
+
+For example:
+
+```text
+concurrency/                 topic
+├── channels/               runnable example
+│   └── main.go
+├── mutex/                  runnable example
+│   └── main.go
+└── lines-errgroup/         runnable example
+    └── main.go
 ```
 
-Some examples consist of several files. Pass all of their files to `go run`:
+## Run examples
+
+Run an individual example by naming its directory. Commands in this README are
+intended to be run from the repository root:
 
 ```sh
-go run ./http/websocket_chat_main.go ./http/websocket_chat_hub.go \
-  ./http/websocket_chat_client.go
+go run ./functions/function-closures
+go run ./strings/runes-unicode
+go run ./concurrency/channels
 ```
 
-Run the packages that currently have maintained tests:
+Multi-file examples work exactly the same way because all of their source files
+are kept together:
 
 ```sh
-go test ./testing/math_operation ./benchmark ./pattern_datastore/...
+go run ./http/websocket-chat
 ```
+
+Compile every portable example and run all default tests:
+
+```sh
+go test ./...
+```
+
+Some examples need native libraries and are excluded from the default check by
+build tags:
+
+```sh
+go run -tags opengl ./opengl/glfw-basic
+go run -tags opencv ./opencv/resize-image
+go run -tags libpcap ./network/gokping
+```
+
+The required native library must be installed before using its tag. The
+historical GXUI example has the `gxui` tag but is known not to compile with the
+current graphics stack.
 
 ## Repository conventions and limitations
-
-Many topic directories intentionally contain multiple `package main` files.
-Consequently, `go test ./...` and `go run ./functions` try to combine unrelated
-examples and are not supported yet. Run examples by file as shown above.
 
 Examples under `opencv`, `opengl`, `container`, `database`, and parts of
 `network` are advanced integrations. They can require native libraries,
 elevated network privileges, Linux, or a running service. Read the source before
 running them.
 
-`image/test_gxui.go` is a historical example built on the unmaintained GXUI
-project. It is retained for reference but does not compile with the current
-graphics dependency stack. It should be replaced or moved to a legacy archive.
+`image/gxui-legacy` is retained for historical reference because GXUI is no
+longer maintained. It is not part of the supported example set.
 
 ## Maintenance direction
 
 This repository is being modernized as a curated learning collection. New or
 renovated examples should:
 
-- use one directory per runnable example;
+- keep one directory per runnable example;
 - prefer the standard library when it teaches the same concept clearly;
 - include a short purpose and run command;
 - avoid hidden external prerequisites;
 - include deterministic tests when practical; and
 - compile under the Go version declared in `go.mod`.
 
-The long-term goal is to make `go test ./...` a reliable health check after the
-single-file examples have been separated into their own directories.
+`go test ./...` is the default repository health check. Tagged native examples
+should be checked separately on environments that provide their dependencies.

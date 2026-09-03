@@ -1,10 +1,17 @@
 package main
 
 import (
+	"html/template"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
+
+func testIndexHandler(t *testing.T) http.HandlerFunc {
+	t.Helper()
+	tmpl := template.Must(template.New("test").Parse(`{{.HttpMethod}} {{.Path}}`))
+	return indexHandler(tmpl)
+}
 
 func TestIndexHandler(t *testing.T) {
 	req, err := http.NewRequest("GET", "/", nil)
@@ -13,7 +20,7 @@ func TestIndexHandler(t *testing.T) {
 	}
 
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(indexHandler)
+	handler := testIndexHandler(t)
 	handler.ServeHTTP(rr, req)
 
 	if status := rr.Code; status != http.StatusOK {
@@ -24,12 +31,12 @@ func TestIndexHandler(t *testing.T) {
 		)
 	}
 
-	expected := "Hello, World!"
+	expected := "GET /"
 	if rr.Body.String() != expected {
 		t.Errorf(
 			"unexpected body: got (%v) want (%v)",
 			rr.Body.String(),
-			"Hello, World!",
+			expected,
 		)
 	}
 }
@@ -41,7 +48,7 @@ func TestIndexHandlerNotFound(t *testing.T) {
 	}
 
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(indexHandler)
+	handler := testIndexHandler(t)
 	handler.ServeHTTP(rr, req)
 
 	if status := rr.Code; status != http.StatusNotFound {
