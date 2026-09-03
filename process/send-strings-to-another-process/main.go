@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	cmd := []string{"go", "run", "echoStdin.go"}
+	cmd := []string{"go", "run", "./process/echo-stdin"}
 
 	proc := exec.Command(cmd[0], cmd[1], cmd[2])
 

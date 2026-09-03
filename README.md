@@ -56,11 +56,11 @@ milestone in your own words.
 
 | Stage | Focus | Theme guides | Milestone |
 | --- | --- | --- | --- |
-| 1. Language foundations | Functions, values, methods, structs, interfaces, text, and Unicode | [`functions`](functions/README.md), [`struct`](struct/README.md), [`strings`](strings/README.md), then `numbers/` | Write small functions, define a type with methods, and safely process UTF-8 text. |
-| 2. Data and I/O | Readers, writers, files, serialization, paths, and time | [`files`](files/README.md), then `input/`, `output/`, `filesystem/`, and `time/` | Read and write data while checking errors and closing resources. |
+| 1. Language foundations | Functions, values, methods, structs, interfaces, text, and Unicode | [`functions`](functions/README.md), [`struct`](struct/README.md), [`strings`](strings/README.md), then [`numbers`](numbers/README.md) | Write small functions, define a type with methods, and safely process UTF-8 text. |
+| 2. Data and I/O | Readers, writers, files, serialization, paths, and time | [`files`](files/README.md), [`filesystem`](filesystem/README.md), and [`time`](time/README.md), then `input/` and `output/` | Read and write data while checking errors and closing resources. |
 | 3. Verification | Unit tests, table-driven tests, examples, and benchmarks | [`testing`](testing/README.md), then `benchmark/` | Test a package and understand a useful failure message. |
 | 4. Concurrency | Goroutines, channels, cancellation, and synchronization | [`concurrency`](concurrency/README.md) | Coordinate finite concurrent work without sleeps, leaks, races, or deadlocks. |
-| 5. Programs and services | Processes, TCP/UDP, HTTP clients, servers, and WebSockets | `process/`, `network/`, and `http/` | Build a small service and shut it down cleanly. |
+| 5. Programs and services | Processes, TCP/UDP, HTTP clients, servers, and WebSockets | [`process`](process/README.md), [`network`](network/README.md), and [`http`](http/README.md) | Build a small service and shut it down cleanly. |
 | 6. Integrations | Databases, storage patterns, crypto, graphics, WebAssembly, and containers | `database/`, `pattern_datastore/`, `crypto/`, `opencv/`, `opengl/`, `wasm/`, and `container/` | Recognize external dependencies and keep integration code isolated and testable. |
 
 A short first pass through the supported core is:
